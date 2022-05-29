@@ -1,20 +1,7 @@
 import React from "react";
 import Link from "./Link";
-import { useQuery, gql } from "@apollo/client";
-
-const FEED_QUERY = gql`
-  query {
-    feed {
-      id
-      links {
-        id
-        createdAt
-        url
-        description
-      }
-    }
-  }
-`;
+import { useQuery } from "@apollo/client";
+import { FEED_QUERY } from "../graphql/query";
 
 const LinkList = () => {
   const { error, loading, data } = useQuery(FEED_QUERY);

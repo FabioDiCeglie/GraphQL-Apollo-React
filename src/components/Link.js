@@ -2,7 +2,7 @@ import React from "react";
 
 const Link = (props) => {
   const { link } = props;
-  console.log(link.description);
+
   return (
     <div>
       <div>
