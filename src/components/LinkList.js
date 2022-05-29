@@ -3,7 +3,7 @@ import Link from "./Link";
 import { useQuery, gql } from "@apollo/client";
 
 const FEED_QUERY = gql`
-  {
+  query {
     feed {
       id
       links {
@@ -17,7 +17,11 @@ const FEED_QUERY = gql`
 `;
 
 const LinkList = () => {
-  const { data } = useQuery(FEED_QUERY);
+  const { error, loading, data } = useQuery(FEED_QUERY);
+
+  if (error) return;
+  if (loading) return "Loading";
+
   return (
     <div>
       {data.feed.links.map((link) => (
