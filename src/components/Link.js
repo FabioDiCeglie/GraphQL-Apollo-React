@@ -2,11 +2,11 @@ import React from "react";
 
 const Link = (props) => {
   const { link } = props;
-
+  console.log(link.description);
   return (
     <div>
       <div>
-        {link.description}({link.url})
+        {link.description} ({link.url})
       </div>
     </div>
   );
