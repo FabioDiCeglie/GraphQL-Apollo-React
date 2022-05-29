@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { CREATE_LINK_MUTATION } from "../graphql/mutations";
 
 const CreateLink = () => {
   const [formState, setFormState] = useState({
@@ -6,11 +8,19 @@ const CreateLink = () => {
     url: "",
   });
 
+  const [createLink] = useMutation(CREATE_LINK_MUTATION, {
+    variables: {
+      description: formState.description,
+      url: formState.url,
+    },
+  });
+
   return (
     <div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          createLink();
         }}
       >
         <div className="flex flex-column mt3">
