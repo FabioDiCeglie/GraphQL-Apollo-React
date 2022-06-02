@@ -1,10 +1,42 @@
 import { AUTH_TOKEN } from "../constants";
 import { timeDifferenceForDate } from "../utils";
 import { VOTE_MUTATION } from "../graphql/mutations";
+import { useMutation } from "@apollo/client";
+import { FEED_QUERY } from "../graphql/query";
 
 const Link = (props) => {
   const { link } = props;
   const authToken = localStorage.getItem(AUTH_TOKEN);
+
+  const [vote] = useMutation(VOTE_MUTATION, {
+    variables: {
+      linkId: link.id,
+    },
+    update: (cache, { data: { vote } }) => {
+      const { feed } = cache.readQuery({
+        query: FEED_QUERY,
+      });
+
+      const updatedLinks = feed.links.map((feedLink) => {
+        if (feedLink.id === link.id) {
+          return {
+            ...feedLink,
+            votes: [...feedLink.votes, vote],
+          };
+        }
+        return feedLink;
+      });
+
+      cache.writeQuery({
+        query: FEED_QUERY,
+        data: {
+          feed: {
+            links: updatedLinks,
+          },
+        },
+      });
+    },
+  });
 
   return (
     <div className="flex mt2 items-start">
@@ -14,9 +46,7 @@ const Link = (props) => {
           <div
             className="ml1 gray f11"
             style={{ cursor: "pointer" }}
-            onClick={() => {
-              console.log("Clicked vote button");
-            }}
+            onClick={vote}
           >
             ▲
           </div>
