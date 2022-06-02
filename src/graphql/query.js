@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const FEED_QUERY = gql`
-  query {
+  {
     feed {
       id
       links {
@@ -9,6 +9,16 @@ export const FEED_QUERY = gql`
         createdAt
         url
         description
+        postedBy {
+          id
+          name
+        }
+        votes {
+          id
+          user {
+            id
+          }
+        }
       }
     }
   }
