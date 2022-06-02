@@ -1,5 +1,6 @@
 import { AUTH_TOKEN } from "../constants";
 import { timeDifferenceForDate } from "../utils";
+import { VOTE_MUTATION } from "../graphql/mutations";
 
 const Link = (props) => {
   const { link } = props;
